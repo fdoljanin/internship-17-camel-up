@@ -4,9 +4,7 @@ import { getDiceRoll } from "./random";
 export const moveCamel = (cells, camelToMove, steps) => {
     let camelCellIndex = cells.findIndex(cell => cell.some(camel => camel === camelToMove));
     let newCamelCellIndex = Math.min(camelCellIndex + steps, 15);
-
     let oldCamelCell = cells[camelCellIndex];
-    console.log(oldCamelCell);
     let camelHeight = oldCamelCell.findIndex(camel => camel === camelToMove);
 
     cells[newCamelCellIndex].push(...oldCamelCell.slice(camelHeight, oldCamelCell.length));
@@ -16,6 +14,6 @@ export const moveCamel = (cells, camelToMove, steps) => {
 export const initBoard = (cells) => {
     const camels = Object.keys(Camels);
     for (let camel of camels) {
-        cells[getDiceRoll()-1].push(camel);
+        cells[getDiceRoll() - 1].push(camel);
     }
 }

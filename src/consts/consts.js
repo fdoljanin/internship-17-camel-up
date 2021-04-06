@@ -10,3 +10,9 @@ export const Camels = {
     camelWhite: "camelWhite",
     camelRed: "camelRed",
 };
+
+export const ActionTypes = {
+    legBet: "legBet",
+    roll: "roll",
+    raceBet: "raceBet",
+};

@@ -4,7 +4,7 @@ import InitialScreen from "./components/InitialScreen";
 import CellsProvider from './providers/cells';
 import CurrentPlayerProvider from './providers/currentPlayer';
 import DiceProvider from './providers/dice';
-import LegBetProvider from './providers/legbets';
+import BetProvider from './providers/bets';
 import PlayerPointsProvider from './providers/playerPoints';
 import PlayersProvider from "./providers/players";
 
@@ -14,7 +14,7 @@ const App = () => {
             <CurrentPlayerProvider>
                 <CellsProvider>
                     <DiceProvider>
-                        <LegBetProvider>
+                        <BetProvider>
                             <PlayerPointsProvider>
                                 <BrowserRouter>
                                     <Switch>
@@ -28,7 +28,7 @@ const App = () => {
                                     </Switch>
                                 </BrowserRouter>
                             </PlayerPointsProvider>
-                        </LegBetProvider>
+                        </BetProvider>
                     </DiceProvider>
                 </CellsProvider>
             </CurrentPlayerProvider>

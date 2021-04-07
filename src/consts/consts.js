@@ -17,4 +17,5 @@ export const ActionTypes = {
     raceBet: "raceBet",
 };
 
-export const PointsPerBet = [5, 1, -1, -1, -1];
+export const PointsPerLegBet = [5, 1, -1, -1, -1];
+export const PointsPerRaceBet = [8, 5];

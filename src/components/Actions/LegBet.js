@@ -1,6 +1,6 @@
 import { Players } from "../../consts/consts";
 import { useCurrentPlayer } from "../../providers/currentPlayer/hooks";
-import { useLegBets } from "../../providers/legbets/hooks"
+import { useLegBets } from "../../providers/bets/hooks"
 import BetModule from "../BetModule";
 
 const LegBet = ({ setAction }) => {

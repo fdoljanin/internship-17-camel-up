@@ -4,6 +4,7 @@ import { getDiceRoll } from "./random";
 export const moveCamel = (cells, camelToMove, steps) => {
     let camelCellIndex = cells.findIndex(cell => cell.some(camel => camel === camelToMove));
     let newCamelCellIndex = Math.min(camelCellIndex + steps, 15);
+    
     let oldCamelCell = cells[camelCellIndex];
     let camelHeight = oldCamelCell.findIndex(camel => camel === camelToMove);
 

@@ -4,4 +4,5 @@ export const camelColors = {
     camelGreen: "#0F0",
     camelWhite: "#FFF",
     camelRed: "#F00",
+    undefined: "#999"
 }

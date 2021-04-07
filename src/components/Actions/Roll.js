@@ -10,14 +10,12 @@ const Roll = ({ setAction }) => {
     const [, setDice] = useDice();
 
     const rollDice = () => {
-        console.log("ok");
         setDice(prevDice => {
             const diceNotRolled = Object.keys(prevDice).filter(die => prevDice[die] === undefined);
             const randomDieKey = diceNotRolled[getRandomNumber(0, diceNotRolled.length - 1)];
             const dieRollValue = getDiceRoll();
 
             moveCamelAction(randomDieKey, dieRollValue);
-
             return { ...prevDice, [randomDieKey]: dieRollValue };
         });
 

@@ -10,8 +10,8 @@ const GameInfo = () => {
 
     return (
     <div>
-        <h5>{playerNames?.[Players.playerOne]} : {playerScore[Players.playerOne]}</h5>
-        <h5>{playerNames?.[Players.playerTwo]} : {playerScore[Players.playerTwo]}</h5>
+        <h5>{playerNames[Players.playerOne]} : {playerScore[Players.playerOne]}</h5>
+        <h5>{playerNames[Players.playerTwo]} : {playerScore[Players.playerTwo]}</h5>
         <p>Current: {currentPlayer}</p>
     </div>)
 }

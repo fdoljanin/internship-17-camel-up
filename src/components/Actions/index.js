@@ -10,16 +10,15 @@ const Actions = () => {
     const renderActionSwitch = (actionToRender) => {
         switch (actionToRender) {
             case ActionTypes.roll:
-                return <Roll setAction={setAction} /> //zamijeni ovaj bijedni setaction s resetaction
+                return <Roll terminateAction={() => setAction()} />
             case ActionTypes.legBet:
-                return <LegBet setAction={setAction}/>
+                return <LegBet terminateAction={() => setAction(null)}/>
             case ActionTypes.raceBet:
-                return <RaceBet setAction={setAction} /> 
+                return <RaceBet terminateAction={() => setAction(null)} /> 
             default:
                 return null
         }
     }
-
 
     return (
         <div>

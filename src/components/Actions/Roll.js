@@ -1,11 +1,11 @@
-import { useCells } from "../../providers/cells/hooks";
-import { getDiceRoll, getRandomNumber } from "../../utils/random";
-import { moveCamel } from "../../utils/boardActions";
 import { useEffect } from "react";
+import { useCells } from "../../providers/cells/hooks";
 import { useDice } from "../../providers/dice/hooks";
+import { moveCamel } from "../../utils/boardActions";
+import { getDiceRoll, getRandomNumber } from "../../utils/random";
 
 
-const Roll = ({ setAction }) => {
+const Roll = ({ terminateAction }) => {
     const [, setCells] = useCells();
     const [, setDice] = useDice();
 
@@ -19,7 +19,7 @@ const Roll = ({ setAction }) => {
             return { ...prevDice, [randomDieKey]: dieRollValue };
         });
 
-        setAction(null);
+        terminateAction();
     }
 
     const moveCamelAction = (camel, steps) => {

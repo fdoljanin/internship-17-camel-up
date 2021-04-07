@@ -4,9 +4,10 @@ import { CellsGrid } from "./index.styled";
 
 const Board = () => {
     return (
-    <CellsGrid>
-        {Array(16).fill(0).map((e, i) => <CellContainer key={i} index={i}/>)}
-    </CellsGrid>
+        <CellsGrid>
+            {Array(16).fill(0).map((e, i) =>
+                <CellContainer key={i} index={i} />)}
+        </CellsGrid>
     )
 }
 

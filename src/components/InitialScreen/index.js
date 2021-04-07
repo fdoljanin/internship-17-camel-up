@@ -8,7 +8,7 @@ const initialState = {
     [Players.playerTwo]: ''
 }
 
-const InitialScreen = ({ setPlayers }) => {
+const InitialScreen = () => {
     const [playersForm, setPlayersForm] = useState(initialState);
     const [playerNames, setPlayerNames] = usePlayerNames();
 

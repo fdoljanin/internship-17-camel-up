@@ -1,20 +1,25 @@
-import { usePlayerNames } from "../../providers/players/hooks";
+import { useState, useEffect } from "react";
+import { Redirect } from "react-router-dom";
+
 import GameInfo from "../GameInfo";
 import Actions from "../Actions";
 import Dice from "../Dice";
 import Board from "../Board";
-import { useEffect, useState } from "react";
-import { constructBets, constructDice, constructPlayerPoints } from "../../utils/defaults";
+
 import { useCurrentPlayer } from "../../providers/currentPlayer/hooks";
+import { usePlayerNames } from "../../providers/players/hooks";
 import { useDice } from "../../providers/dice/hooks";
 import { useLegBets, useRaceBets } from "../../providers/bets/hooks";
 import { useCells } from "../../providers/cells/hooks";
-import { Players, PointsPerLegBet, PointsPerRaceBet } from "../../consts/consts";
 import { usePlayerPoints } from "../../providers/playerPoints/hook";
-import RaceBet from "../Actions/RaceBet";
+
+import { constructBets, constructDice, constructPlayerPoints } from "../../utils/defaults";
+import { Camels, Players, PointsPerLegBet, PointsPerRaceBet } from "../../consts/consts";
 
 const initialState = {
     playerPoints: constructPlayerPoints(),
+    dice: constructDice(),
+    legBets: constructBets(),
 }
 
 
@@ -27,56 +32,81 @@ const Game = () => {
     const [playerScore, setPlayerScore] = usePlayerPoints();
     const [legRollPoints, setLegRollPoints] = useState(constructPlayerPoints());
     const [gameDidEnd, setGameDidEnd] = useState(false);
+    const [playerNames] = usePlayerNames();
 
 
+    if (!playerNames) {
+        return <Redirect to='/login' />
+    }
 
-    const endLeg = () => {
-        let legBetPoints = constructPlayerPoints();
-
+    const calculateLegBetPoints = () => {
+        const legBetPoints = initialState.playerPoints;
         const camelsSorted = [].concat(...cells).reverse();
-        for (let camel of camelsSorted) {
-            if (legBets[camel]) {
-                legBetPoints[legBets[camel]] += PointsPerLegBet[camelsSorted.findIndex(e => e === camel)];
+
+        camelsSorted.forEach((camel, index) => {
+            const playerThatBetted = legBets[camel];
+
+            if (playerThatBetted) {
+                legBetPoints[playerThatBetted] += PointsPerLegBet[index];
             }
-        }
+        });
+
+        return legBetPoints;
+    }
+
+    const setScoreAfterLeg = (betPoints, rollPoints) => {
         setPlayerScore(prev => {
             return {
-                [Players.playerOne]: prev.playerOne + legBetPoints.playerOne + legRollPoints.playerOne,
-                [Players.playerTwo]: prev.playerTwo + legBetPoints.playerTwo + legRollPoints.playerTwo
+                [Players.playerOne]: prev.playerOne + betPoints.playerOne + rollPoints.playerOne,
+                [Players.playerTwo]: prev.playerTwo + betPoints.playerTwo + rollPoints.playerTwo
             }
         })
+    }
 
-        setDice(constructDice());
-        setLegBets(constructBets());
-        setLegRollPoints(constructPlayerPoints());
+    const endLeg = () => {
+        const legBetPoints = calculateLegBetPoints();
+
+        setScoreAfterLeg(legBetPoints, legRollPoints);
+
+        setDice(initialState.dice);
+        setLegBets(initialState.legBets);
+        setLegRollPoints(initialState.playerPoints);
+    }
+
+
+    const calculateRaceBetPoints = () => {
+        const raceBetPoints = initialState.playerPoints;
+        const camelThatWon = [].concat(...cells).reverse()[0];
+        let betsThatSuceeded = 0;
+
+        raceBets.forEach(raceBet => {
+            if (raceBet.camel === camelThatWon) {
+                raceBetPoints[raceBet.player] += PointsPerRaceBet[betsThatSuceeded];
+                ++betsThatSuceeded;
+                return;
+            }
+
+            raceBetPoints[raceBet.player] -= 1;
+        });
+
+        return raceBetPoints;
+    }
+
+    const setScoreAfterRace = (betPoints) => {
+        setPlayerScore(prev => {
+            return {
+                [Players.playerOne]: prev.playerOne + betPoints.playerOne,
+                [Players.playerTwo]: prev.playerTwo + betPoints.playerTwo
+            }
+        })
     }
 
     const endGame = () => {
         setGameDidEnd(true);
-        console.log("GAME // OVER");
         endLeg();
-        let raceBetPoints = constructPlayerPoints();
-        let betsThatSuceeded = 0;
-        const camelThatWon = [].concat(...cells).reverse()[0];
 
-        for (let raceBet of raceBets) {
-            if (raceBet.camel === camelThatWon) {
-                raceBetPoints[raceBet.player] += PointsPerRaceBet[betsThatSuceeded];
-                ++betsThatSuceeded;
-            } else {
-                raceBetPoints[raceBet.player] -= 1;
-            }
-        }
-
-        setPlayerScore(prev => {
-            return {
-                [Players.playerOne]: prev.playerOne + raceBetPoints.playerOne,
-                [Players.playerTwo]: prev.playerTwo + raceBetPoints.playerTwo
-            }
-        })
-
-
-        console.log(raceBetPoints);
+        const raceBetPoints = calculateRaceBetPoints();
+        setScoreAfterRace(raceBetPoints);
     }
 
     useEffect(() => {
@@ -87,13 +117,15 @@ const Game = () => {
     }, [dice]);
 
     useEffect(() => {
-        if (cells[15].length && !gameDidEnd) {
-            endGame();
-            return;
-        }
+        if (!gameDidEnd) {
+            if (cells[15].length) {
+                endGame();
+                return;
+            }
 
-        if (!Object.values(dice).some(roll => !roll)) {
-            endLeg();
+            if (!Object.values(dice).some(roll => !roll)) {
+                endLeg();
+            }
         }
     }, [legRollPoints]);
 

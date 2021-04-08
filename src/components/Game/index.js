@@ -15,6 +15,7 @@ import { usePlayerPoints } from "../../providers/playerPoints/hook";
 
 import { constructBets, constructDice, constructPlayerPoints } from "../../utils/defaults";
 import { Camels, Players, PointsPerLegBet, PointsPerRaceBet } from "../../consts/consts";
+import { useMessage } from "../../providers/message/hooks";
 
 const initialState = {
     playerPoints: constructPlayerPoints(),
@@ -30,9 +31,10 @@ const Game = () => {
     const [raceBets, setRaceBets] = useRaceBets();
     const [cells] = useCells();
     const [playerScore, setPlayerScore] = usePlayerPoints();
-    const [legRollPoints, setLegRollPoints] = useState(constructPlayerPoints());
+    const [legRollPoints, setLegRollPoints] = useState(initialState.playerPoints);
     const [gameDidEnd, setGameDidEnd] = useState(false);
     const [playerNames] = usePlayerNames();
+    const [, setMessage] = useMessage();
 
 
     if (!playerNames) {
@@ -40,7 +42,7 @@ const Game = () => {
     }
 
     const calculateLegBetPoints = () => {
-        const legBetPoints = initialState.playerPoints;
+        const legBetPoints = {...initialState.playerPoints};
         const camelsSorted = [].concat(...cells).reverse();
 
         camelsSorted.forEach((camel, index) => {
@@ -68,9 +70,14 @@ const Game = () => {
 
         setScoreAfterLeg(legBetPoints, legRollPoints);
 
-        setDice(initialState.dice);
-        setLegBets(initialState.legBets);
-        setLegRollPoints(initialState.playerPoints);
+        setMessage(<div>
+            <p>Leg bet points: {legBetPoints.playerOne}, {legBetPoints.playerTwo}</p>
+            <p>Leg roll points: {legRollPoints.playerOne}, {legRollPoints.playerTwo}</p>
+        </div>)
+
+        setDice({...initialState.dice});
+        setLegBets({...initialState.legBets});
+        setLegRollPoints({...initialState.playerPoints});
     }
 
 
@@ -109,6 +116,7 @@ const Game = () => {
         setScoreAfterRace(raceBetPoints);
     }
 
+
     useEffect(() => {
         if (Object.values(dice).some(roll => roll)) {
             setLegRollPoints(prev => { return { ...prev, [currentPlayer]: prev[currentPlayer] + 1 } });
@@ -129,7 +137,7 @@ const Game = () => {
         }
     }, [legRollPoints]);
 
-
+    
     return (
         <div>
             <GameInfo />

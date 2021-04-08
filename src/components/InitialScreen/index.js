@@ -1,6 +1,7 @@
 import { useState } from "react";
 import {Redirect} from "react-router-dom";
 import { Players } from "../../consts/consts";
+import { useMessage } from "../../providers/message/hooks";
 import { usePlayerNames } from "../../providers/players/hooks";
 
 const initialState = {
@@ -11,6 +12,7 @@ const initialState = {
 const InitialScreen = () => {
     const [playersForm, setPlayersForm] = useState(initialState);
     const [playerNames, setPlayerNames] = usePlayerNames();
+    const [, setMessage] = useMessage();
 
     if (playerNames)
         return <Redirect to="play" />
@@ -25,6 +27,11 @@ const InitialScreen = () => {
         let copy = { ...playersForm };
         copy.playerOne = copy.playerOne.trim();
         copy.playerTwo = copy.playerTwo.trim();
+
+        if (copy.playerOne === copy.playerTwo) {
+            setMessage("No duplicate names allowed!");
+            return;
+        }
 
         setPlayerNames({...copy});
     }

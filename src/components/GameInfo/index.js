@@ -1,11 +1,11 @@
 import { Players } from "../../consts/consts";
 import { useCurrentPlayer } from "../../providers/currentPlayer/hooks";
-import { usePlayerPoints } from "../../providers/playerPoints/hook";
+import { usePlayerScore } from "../../providers/playerScore/hook";
 import { usePlayerNames } from "../../providers/players/hooks";
 
 const GameInfo = () => {
     const [playerNames] = usePlayerNames();
-    const [playerScore] = usePlayerPoints();
+    const [playerScore] = usePlayerScore();
     const [currentPlayer] = useCurrentPlayer();
 
     return (

@@ -1,24 +1,24 @@
 import React, { createContext, useState } from "react";
-import { initBoard, moveCamelOnCells } from "../../utils/boardActions";
+import { moveCamelInCells } from "../../utils/boardActions";
+import { constructBoardWithCamels } from "../../utils/defaults";
 
-const emptyBoard = Array(16).fill(0).map(e => []);
+const initialState = {
+    cells: constructBoardWithCamels()
+}
 
 export const CellsContext = createContext({
-    state: { ...emptyBoard },
+    state: { ...initialState },
     moveCamel: () => { }
 })
 
 
 const CellsProvider = ({ children }) => {
-    const initialBoard = [...emptyBoard.map(e => [...e])];
-    initBoard(initialBoard);
-    
-    const [cells, setCells] = useState(initialBoard);
+    const [cells, setCells] = useState(initialState.cells);
 
     const moveCamel = (camel, steps) => {
-        setCells(prev => {
-            let copyCells = prev.map(cell => [...cell]);
-            moveCamelOnCells(copyCells, camel, steps);
+        setCells(prevBoard => {
+            const copyCells = prevBoard.map(cell => [...cell]);
+            moveCamelInCells(copyCells, camel, steps);
             return copyCells;
         });
     }

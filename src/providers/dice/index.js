@@ -1,7 +1,9 @@
 import React, { createContext, useState } from "react";
 import { constructDice } from "../../utils/defaults";
 
-const initialState = constructDice();
+const initialState = {
+    dice: constructDice()
+}
 
 export const DiceContext = createContext({
     state: {...initialState},
@@ -9,9 +11,9 @@ export const DiceContext = createContext({
 });
 
 const DiceProvider = ({children}) => {
-    const [dice, setDice] = useState(initialState);
+    const [dice, setDice] = useState(initialState.dice);
 
-    const resetDice = () => setDice({...initialState});
+    const resetDice = () => setDice(initialState.dice);
 
     const value = {
         state: {dice},

@@ -29,7 +29,7 @@ const InitialScreen = () => {
         copy.playerTwo = copy.playerTwo.trim();
 
         if (copy.playerOne === copy.playerTwo) {
-            setMessage("No duplicate names allowed!");
+            setMessage({title:"Error", content:"No duplicate names allowed!"});
             return;
         }
 

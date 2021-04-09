@@ -1,4 +1,5 @@
 import { useMessage } from "../../providers/message/hooks";
+import {Popup, MessageOverlay} from "./index.styled";
 
 const Message = () => {
     const [message, setMessage] = useMessage();
@@ -8,10 +9,13 @@ const Message = () => {
     }
 
     return (
-        <div>
-            {message}
-            <button onClick={() => setMessage(null)}>OK</button>
-        </div>
+        <MessageOverlay>
+            <Popup>
+                <h2>{message.title}</h2>
+                {message.content}
+                <button onClick={() => setMessage(null)}>OK</button>
+            </Popup>
+        </MessageOverlay>
     )
 }
 

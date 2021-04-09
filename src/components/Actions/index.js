@@ -4,17 +4,19 @@ import Roll from "./Roll";
 import LegBet from "./LegBet";
 import RaceBet from "./RaceBet";
 
-const Actions = () => {
-    const [action, setAction] = useState(null);
+const Panel = () => {
+    const [action, setAction] = useState();
+
+    const terminateAction = () => setAction(null);
 
     const renderActionSwitch = (actionToRender) => {
         switch (actionToRender) {
-            case ActionTypes.roll:
-                return <Roll terminateAction={() => setAction()} />
             case ActionTypes.legBet:
-                return <LegBet terminateAction={() => setAction(null)}/>
+                return <LegBet terminateAction={terminateAction} />
+            case ActionTypes.roll:
+                return <Roll terminateAction={terminateAction} />
             case ActionTypes.raceBet:
-                return <RaceBet terminateAction={() => setAction(null)} /> 
+                return <RaceBet terminateAction={terminateAction} />
             default:
                 return null
         }
@@ -32,4 +34,4 @@ const Actions = () => {
     )
 }
 
-export default Actions;
+export default Panel;

@@ -11,7 +11,8 @@ export const CamelDot = styled.div`
 
     @keyframes fallIn {
         from {
-            transform: translateY(-100px);
+            transform: translateY(-50px);
+            opacity: 0;
         } to {
             transform: translateY(0);
         }

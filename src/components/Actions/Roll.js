@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useMoveCamel } from "../../providers/cells/hooks";
 import { useDice } from "../../providers/dice/hooks";
-import { getDiceRoll, getRandomNumber } from "../../utils/random";
+import { getDieRoll, getRandomNumber } from "../../utils/random";
 
 
 const Roll = ({ terminateAction }) => {
@@ -10,12 +10,12 @@ const Roll = ({ terminateAction }) => {
 
     const rollDice = () => {
         setDice(prevDice => {
-            const diceNotRolled = Object.keys(prevDice).filter(die => prevDice[die] === undefined);
-            const randomDieKey = diceNotRolled[getRandomNumber(0, diceNotRolled.length - 1)];
-            const dieRollValue = getDiceRoll();
+            const camelDiceNotRolled = Object.keys(prevDice).filter(die => prevDice[die] === undefined);
+            const randomCamelDie = camelDiceNotRolled[getRandomNumber(0, camelDiceNotRolled.length - 1)];
+            const dieRollValue = getDieRoll();
 
-            moveCamel(randomDieKey, dieRollValue);
-            return { ...prevDice, [randomDieKey]: dieRollValue };
+            moveCamel(randomCamelDie, dieRollValue);
+            return { ...prevDice, [randomCamelDie]: dieRollValue };
         });
 
         terminateAction();

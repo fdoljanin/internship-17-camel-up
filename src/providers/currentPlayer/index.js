@@ -4,23 +4,26 @@ import { getRandomNumber } from "../../utils/random";
 
 
 const playerTypes = Object.keys(Players);
-const initialState = playerTypes[getRandomNumber(0, playerTypes.length - 1)];
+
+const initialState = {
+    currentPlayer: playerTypes[getRandomNumber(0, playerTypes.length - 1)]
+}
 
 export const CurrentPlayerContext = createContext({
     state: { ...initialState },
-    setState: () => { }
+    toggleCurrentPlayer: () => { }
 });
 
 const toggleCurrentPlayer = (setCurrentPlayer) => {
     setCurrentPlayer(prev => {
         const indexOfPrevPlayer = playerTypes.indexOf(prev);
         return playerTypes[(indexOfPrevPlayer + 1) % playerTypes.length];
-    }
-    )
+    })
 }
 
 const CurrentPlayerProvider = ({ children }) => {
-    const [currentPlayer, setCurrentPlayer] = useState(initialState);
+    const [currentPlayer, setCurrentPlayer] = useState(initialState.currentPlayer);
+
     const value = {
         state: { currentPlayer },
         toggleCurrentPlayer: () => toggleCurrentPlayer(setCurrentPlayer)

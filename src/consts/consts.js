@@ -18,4 +18,10 @@ export const ActionTypes = {
 };
 
 export const PointsPerLegBet = [5, 1, -1, -1, -1];
-export const PointsPerRaceBet = [8, 5];
+
+export const PointsPerRaceBet = {
+    win: [8, 5],
+    lose: -1
+}
+
+export const NUMBER_OF_CELLS = 16;

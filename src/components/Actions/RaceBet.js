@@ -1,22 +1,22 @@
-import { useRaceBets } from "../../providers/bets/hooks";
+import { useAddRaceBet } from "../../providers/bets/hooks";
 import { useCurrentPlayer } from "../../providers/currentPlayer/hooks";
 import { constructBets } from "../../utils/defaults";
 import BetModule from "../BetModule";
 
 const RaceBet = ({ terminateAction }) => {
     const [currentPlayer, toggleCurrentPlayer] = useCurrentPlayer();
-    const [raceBets, setRaceBets] = useRaceBets();
-    const playerBetBefore = raceBets.find(bet => bet.player === currentPlayer)
+    const [raceBets, addRaceBet] = useAddRaceBet();
+    const existingPlayerBet = raceBets.find(bet => bet.player === currentPlayer)
 
     const setBet = (camelToBet, playerToBet) => {
-        setRaceBets(prev => [...prev, { player: playerToBet, camel: camelToBet }]);
+        addRaceBet(camelToBet, playerToBet);
         toggleCurrentPlayer();
         terminateAction();
     }
 
     return (
-        playerBetBefore ?
-            <p>You already placed a bet on {playerBetBefore.camel}</p>
+        existingPlayerBet ?
+            <p>You already placed a bet on {existingPlayerBet.camel}</p>
             :
             <BetModule betOptions={constructBets()}
                 setBet={(camel) => setBet(camel, currentPlayer)} />

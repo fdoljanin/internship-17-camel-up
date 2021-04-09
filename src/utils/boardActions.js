@@ -1,20 +1,20 @@
-import { Camels } from "../consts/consts";
-import { getDiceRoll } from "./random";
+import { Camels, NUMBER_OF_CELLS } from "../consts/consts";
+import { getDieRoll } from "./random";
 
-export const moveCamelOnCells = (cells, camelToMove, steps) => {
-    let camelCellIndex = cells.findIndex(cell => cell.some(camel => camel === camelToMove));
-    let newCamelCellIndex = Math.min(camelCellIndex + steps, 15);
-    
-    let oldCamelCell = cells[camelCellIndex];
-    let camelHeight = oldCamelCell.findIndex(camel => camel === camelToMove);
+export const moveCamelInCells = (cells, camelToMove, steps) => {
+    const oldCamelCellIndex = cells.findIndex(cell => cell.some(camel => camel === camelToMove));
+    const newCamelCellIndex = Math.min(oldCamelCellIndex + steps, NUMBER_OF_CELLS - 1);
+
+    const oldCamelCell = cells[oldCamelCellIndex];
+    const camelHeight = oldCamelCell.findIndex(camel => camel === camelToMove);
 
     cells[newCamelCellIndex].push(...oldCamelCell.slice(camelHeight, oldCamelCell.length));
     oldCamelCell.splice(camelHeight, oldCamelCell.length - camelHeight);
 }
 
-export const initBoard = (cells) => {
+export const initCamelsInCells = (cells) => {
     const camels = Object.keys(Camels);
     for (let camel of camels) {
-        cells[getDiceRoll() - 1].push(camel);
+        cells[getDieRoll() - 1].push(camel);
     }
 }

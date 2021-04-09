@@ -1,3 +1,4 @@
+import { NUMBER_OF_CELLS } from "../../consts/consts";
 import CellContainer from "../Cell";
 import { CellsGrid } from "./index.styled";
 
@@ -5,7 +6,7 @@ import { CellsGrid } from "./index.styled";
 const Board = () => {
     return (
         <CellsGrid>
-            {Array(16).fill(0).map((e, i) =>
+            {Array(NUMBER_OF_CELLS).fill(0).map((e, i) =>
                 <CellContainer key={i} index={i} />)}
         </CellsGrid>
     )

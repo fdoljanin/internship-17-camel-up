@@ -1,22 +1,22 @@
-import {useContext} from "react";
-import {BetContext} from ".";
+import { useContext } from "react";
+import { BetContext } from ".";
 
 const useBetContext = () => {
     return useContext(BetContext);
 }
 
-export const useLegBets = () => {
+export const useAddLegBet = () => {
     const {
-        state: {legBets},
-        setLegBets
+        state: { legBets },
+        addLegBet
     } = useBetContext();
 
-    return [legBets, setLegBets];
+    return [legBets, addLegBet];
 }
 
 export const useResetLegBets = () => {
     const {
-        state: {legBets},
+        state: { legBets },
         resetLegBets
     } = useBetContext();
 
@@ -25,9 +25,17 @@ export const useResetLegBets = () => {
 
 export const useRaceBets = () => {
     const {
-        state: {raceBets},
-        setRaceBets
+        state: { raceBets },
     } = useBetContext();
 
-    return [raceBets, setRaceBets];
+    return raceBets;
+}
+
+export const useAddRaceBet = () => {
+    const {
+        state: { raceBets },
+        addRaceBet
+    } = useBetContext();
+
+    return [raceBets, addRaceBet];
 }

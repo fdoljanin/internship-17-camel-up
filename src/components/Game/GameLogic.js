@@ -1,47 +1,31 @@
 import { useState, useEffect } from "react";
 
 import { useCurrentPlayer } from "../../providers/currentPlayer/hooks";
-import { useResetDice} from "../../providers/dice/hooks";
+import { useResetDice } from "../../providers/dice/hooks";
 import { useResetLegBets, useRaceBets } from "../../providers/bets/hooks";
 import { useCells } from "../../providers/cells/hooks";
-import { usePlayerPoints } from "../../providers/playerPoints/hook";
+import { usePlayerScore } from "../../providers/playerScore/hook";
 
-import { constructBets, constructDice, constructPlayerPoints } from "../../utils/defaults";
-import { Players, PointsPerLegBet, PointsPerRaceBet } from "../../consts/consts";
+import { constructPlayerPoints } from "../../utils/defaults";
+import { NUMBER_OF_CELLS, Players } from "../../consts/consts";
 import { useMessage } from "../../providers/message/hooks";
+import { calculateLegBetPoints,calculateRaceBetPoints } from "../../utils/pointsCalculator";
 
 const initialState = {
     playerPoints: constructPlayerPoints(),
-    dice: constructDice(),
-    legBets: constructBets(),
 }
 
 
-const GameLogic = ({setGameEnd}) => {
+const GameLogic = ({ setGameEnd }) => {
     const [currentPlayer, toggleCurrentPlayer] = useCurrentPlayer();
     const [dice, resetDice] = useResetDice();
     const [legBets, resetLegBets] = useResetLegBets();
-    const [raceBets,] = useRaceBets();
+    const raceBets = useRaceBets();
     const cells = useCells();
-    const [, setPlayerScore] = usePlayerPoints();
+    const [, setPlayerScore] = usePlayerScore();
     const [legRollPoints, setLegRollPoints] = useState(initialState.playerPoints);
     const [, setMessage] = useMessage();
 
-
-    const calculateLegBetPoints = () => {
-        const legBetPoints = {...initialState.playerPoints};
-        const camelsSorted = [].concat(...cells).reverse();
-
-        camelsSorted.forEach((camel, index) => {
-            const playerThatBetted = legBets[camel];
-
-            if (playerThatBetted) {
-                legBetPoints[playerThatBetted] += PointsPerLegBet[index];
-            }
-        });
-
-        return legBetPoints;
-    }
 
     const setScoreAfterLeg = (betPoints, rollPoints) => {
         setPlayerScore(prev => {
@@ -53,7 +37,7 @@ const GameLogic = ({setGameEnd}) => {
     }
 
     const endLeg = () => {
-        const legBetPoints = calculateLegBetPoints();
+        const legBetPoints = calculateLegBetPoints(cells, legBets);
 
         setScoreAfterLeg(legBetPoints, legRollPoints);
 
@@ -64,26 +48,7 @@ const GameLogic = ({setGameEnd}) => {
 
         resetDice();
         resetLegBets();
-        setLegRollPoints({...initialState.playerPoints});
-    }
-
-
-    const calculateRaceBetPoints = () => {
-        const raceBetPoints = initialState.playerPoints;
-        const camelThatWon = [].concat(...cells).reverse()[0];
-        let betsThatSuceeded = 0;
-
-        raceBets.forEach(raceBet => {
-            if (raceBet.camel === camelThatWon) {
-                raceBetPoints[raceBet.player] += PointsPerRaceBet[betsThatSuceeded];
-                ++betsThatSuceeded;
-                return;
-            }
-
-            raceBetPoints[raceBet.player] -= 1;
-        });
-
-        return raceBetPoints;
+        setLegRollPoints(initialState.playerPoints);
     }
 
     const setScoreAfterRace = (betPoints) => {
@@ -99,10 +64,9 @@ const GameLogic = ({setGameEnd}) => {
         setGameEnd();
         endLeg();
 
-        const raceBetPoints = calculateRaceBetPoints();
+        const raceBetPoints = calculateRaceBetPoints(cells, raceBets);
         setScoreAfterRace(raceBetPoints);
     }
-
 
     useEffect(() => {
         if (Object.values(dice).some(roll => roll)) {
@@ -112,16 +76,16 @@ const GameLogic = ({setGameEnd}) => {
     }, [dice]);
 
     useEffect(() => {
-            if (cells[15].length) {
-                endGame();
-                return;
-            }
+        if (cells[NUMBER_OF_CELLS - 1].length) {
+            endGame();
+            return;
+        }
 
-            if (!Object.values(dice).some(roll => !roll)) {
-                endLeg();
-            }
+        if (!Object.values(dice).some(roll => !roll)) {
+            endLeg();
+        }
     }, [legRollPoints]);
-    
+
     return null;
 }
 

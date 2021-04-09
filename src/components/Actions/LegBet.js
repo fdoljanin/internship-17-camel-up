@@ -1,15 +1,15 @@
 import { useCurrentPlayer } from "../../providers/currentPlayer/hooks";
-import { useLegBets } from "../../providers/bets/hooks";
+import { useAddLegBet } from "../../providers/bets/hooks";
 import BetModule from "../BetModule";
 
 const LegBet = ({ terminateAction }) => {
-    const [legBets, setLegBets] = useLegBets();
+    const [legBets, addLegBet] = useAddLegBet();
     const [currentPlayer, toggleCurrentPlayer] = useCurrentPlayer();
 
     const setBet = (camelToBet, playerToBet) => {
-        setLegBets(prev => { return { ...prev, [camelToBet]: playerToBet } });
+        addLegBet(camelToBet, playerToBet);
         toggleCurrentPlayer();
-        terminateAction(null);
+        terminateAction();
     }
 
     return (

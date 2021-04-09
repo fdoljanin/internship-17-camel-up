@@ -10,7 +10,7 @@ export const MessageContext = createContext({
 });
 
 const MessageProvider = ({ children }) => {
-    const [message, setMessage] = useState();
+    const [message, setMessage] = useState(initialState.message);
 
     const value = {
         state: { message },

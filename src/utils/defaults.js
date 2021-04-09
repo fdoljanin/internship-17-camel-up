@@ -1,4 +1,5 @@
-import { Camels, Players } from "../consts/consts"
+import { NUMBER_OF_CELLS, Camels, Players } from "../consts/consts"
+import { initCamelsInCells } from "./boardActions"
 
 export const constructDice = () => {
     return {
@@ -25,4 +26,14 @@ export const constructPlayerPoints = () => {
         [Players.playerOne]: 0,
         [Players.playerTwo]: 0
     }
+}
+
+export const constructBoard = () => {
+    return Array(NUMBER_OF_CELLS).fill(0).map(()=>[]);
+}
+
+export const constructBoardWithCamels = () => {
+    const emptyBoardCells = constructBoard();
+    initCamelsInCells(emptyBoardCells);
+    return emptyBoardCells;
 }

@@ -1,7 +1,7 @@
 import { Camels } from "../consts/consts";
 import { getDiceRoll } from "./random";
 
-export const moveCamel = (cells, camelToMove, steps) => {
+export const moveCamelOnCells = (cells, camelToMove, steps) => {
     let camelCellIndex = cells.findIndex(cell => cell.some(camel => camel === camelToMove));
     let newCamelCellIndex = Math.min(camelCellIndex + steps, 15);
     

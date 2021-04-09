@@ -15,9 +15,12 @@ const BetProvider = ({children}) => {
     const [legBets, setLegBets] = useState(initialState.legBets);
     const [raceBets, setRaceBets] = useState(initialState.raceBets);
 
+    const resetLegBets = () => setLegBets({...initialState.legBets});
+
     const value = {
         state: {legBets, raceBets},
         setLegBets,
+        resetLegBets,
         setRaceBets
     }
  

@@ -6,6 +6,11 @@ const useCellsContext = () => {
 }
 
 export const useCells = () => {
-    const { state: { cells }, setCells } = useCellsContext();
-    return [cells, setCells];
+    const { state: { cells }} = useCellsContext();
+    return cells;
+}
+
+export const useMoveCamel = () => {
+    const {moveCamel} = useCellsContext();
+    return moveCamel;
 }

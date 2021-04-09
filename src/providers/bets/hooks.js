@@ -14,6 +14,15 @@ export const useLegBets = () => {
     return [legBets, setLegBets];
 }
 
+export const useResetLegBets = () => {
+    const {
+        state: {legBets},
+        resetLegBets
+    } = useBetContext();
+
+    return [legBets, resetLegBets];
+}
+
 export const useRaceBets = () => {
     const {
         state: {raceBets},

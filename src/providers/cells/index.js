@@ -1,12 +1,13 @@
 import React, { createContext, useState } from "react";
-import { initBoard } from "../../utils/boardActions";
+import { initBoard, moveCamelOnCells } from "../../utils/boardActions";
 
 const emptyBoard = Array(16).fill(0).map(e => []);
 
 export const CellsContext = createContext({
     state: { ...emptyBoard },
-    setCells: () => { }
+    moveCamel: () => { }
 })
+
 
 const CellsProvider = ({ children }) => {
     const initialBoard = [...emptyBoard.map(e => [...e])];
@@ -14,9 +15,17 @@ const CellsProvider = ({ children }) => {
     
     const [cells, setCells] = useState(initialBoard);
 
+    const moveCamel = (camel, steps) => {
+        setCells(prev => {
+            let copyCells = prev.map(cell => [...cell]);
+            moveCamelOnCells(copyCells, camel, steps);
+            return copyCells;
+        });
+    }
+
     const value = {
         state: { cells },
-        setCells
+        moveCamel
     }
 
     return <CellsContext.Provider value={value}>{children}</CellsContext.Provider>

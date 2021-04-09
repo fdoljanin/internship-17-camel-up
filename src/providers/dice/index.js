@@ -11,9 +11,12 @@ export const DiceContext = createContext({
 const DiceProvider = ({children}) => {
     const [dice, setDice] = useState(initialState);
 
+    const resetDice = () => setDice({...initialState});
+
     const value = {
         state: {dice},
-        setDice
+        setDice,
+        resetDice
     }
  
     return (

@@ -1,12 +1,11 @@
 import { useEffect } from "react";
-import { useCells } from "../../providers/cells/hooks";
+import { useMoveCamel } from "../../providers/cells/hooks";
 import { useDice } from "../../providers/dice/hooks";
-import { moveCamel } from "../../utils/boardActions";
 import { getDiceRoll, getRandomNumber } from "../../utils/random";
 
 
 const Roll = ({ terminateAction }) => {
-    const [, setCells] = useCells();
+    const moveCamel = useMoveCamel();
     const [, setDice] = useDice();
 
     const rollDice = () => {
@@ -15,19 +14,11 @@ const Roll = ({ terminateAction }) => {
             const randomDieKey = diceNotRolled[getRandomNumber(0, diceNotRolled.length - 1)];
             const dieRollValue = getDiceRoll();
 
-            moveCamelAction(randomDieKey, dieRollValue);
+            moveCamel(randomDieKey, dieRollValue);
             return { ...prevDice, [randomDieKey]: dieRollValue };
         });
 
         terminateAction();
-    }
-
-    const moveCamelAction = (camel, steps) => {
-        setCells(prev => {
-            let copyCells = prev.map(cell => [...cell]);
-            moveCamel(copyCells, camel, steps);
-            return copyCells;
-        });
     }
 
     useEffect(rollDice, []);

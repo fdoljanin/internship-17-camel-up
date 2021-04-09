@@ -2,7 +2,7 @@ import { CamelDot, CamelContainer, CellContainer } from "./index.styled";
 import { useCells } from "../../providers/cells/hooks";
 
 const Cell = ({ index }) => {
-    const [{ [index]: cellCamels }] = useCells();
+    const { [index]: cellCamels } = useCells();
 
     return (
         <CellContainer>

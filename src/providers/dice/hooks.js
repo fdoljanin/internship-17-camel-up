@@ -13,3 +13,12 @@ export const useDice = () => {
 
     return [dice, setDice];
 }
+
+export const useResetDice = () => {
+    const {
+        state: {dice},
+        resetDice
+    } = useDiceContext();
+
+    return [dice, resetDice];
+}

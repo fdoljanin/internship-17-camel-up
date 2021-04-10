@@ -3,12 +3,15 @@ export const Players = {
     playerTwo: "playerTwo",
 };
 
+export const camelForbidden = Symbol("camelForbidden");
+
 export const Camels = {
     camelBlue: "camelBlue",
     camelYellow: "camelYellow",
     camelGreen: "camelGreen",
     camelWhite: "camelWhite",
     camelRed: "camelRed",
+    [camelForbidden]: "camelForbidden"
 };
 
 export const ActionTypes = {

@@ -1,3 +1,4 @@
+import { camelForbidden, Camels } from "../../consts/consts";
 import { CamelButton } from "./index.styled";
 
 const BetModule = ({ betOptions, setBet }) => {
@@ -6,7 +7,7 @@ const BetModule = ({ betOptions, setBet }) => {
             {Object.keys(betOptions).map(camel =>
                 <CamelButton key={camel}
                     onClick={() => setBet(camel)}
-                    camel={!betOptions[camel] ? camel : undefined}
+                    camel={!betOptions[camel] ? camel : Camels[camelForbidden]}
                     disabled={betOptions[camel]}
                 />
             )}

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import {camelColors} from "../../consts/variables";
+import { camelColors } from "../../consts/variables";
 
 export const CamelDot = styled.div`
     width: 20px;
@@ -8,6 +8,8 @@ export const CamelDot = styled.div`
     border: 2px black solid;
     background: ${props => camelColors[props.camel]};
     animation: fallIn 2s;
+    align-self: center;
+    margin-bottom: 2px;
 
     @keyframes fallIn {
         from {
@@ -28,4 +30,13 @@ export const CellContainer = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    width: 100px;
+    min-height: 100px;
+    background: #eb5;
+    border: 4px solid #b71;
+
+    span {
+        color: #b71;
+        margin-left: 5px;
+    }
 `;

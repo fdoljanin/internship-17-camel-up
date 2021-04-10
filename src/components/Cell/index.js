@@ -1,6 +1,7 @@
 import { CamelDot, CamelContainer, CellContainer } from "./index.styled";
 import { useCells } from "../../providers/cells/hooks";
 
+
 const Cell = ({ index }) => {
     const { [index]: cellCamels } = useCells();
 
@@ -9,7 +10,8 @@ const Cell = ({ index }) => {
             <span>{index + 1}</span>
             <CamelContainer>
                 {cellCamels.map((camel, i) =>
-                    <CamelDot key={i} camel={camel} />)}
+                    <CamelDot key={i} camel={camel} />
+                )}
             </CamelContainer>
         </CellContainer>
     )

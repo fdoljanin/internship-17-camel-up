@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Redirect } from "react-router-dom";
 
 import GameLogic from "./GameLogic";
@@ -5,41 +6,52 @@ import GameInfo from "../GameInfo";
 import Panel from "../Actions";
 import Dice from "../Dice";
 import Board from "../Board";
+import EndScreen from "../EndScreen";
 
-import CellsProvider from '../../providers/cells';
-import CurrentPlayerProvider from '../../providers/currentPlayer';
-import DiceProvider from '../../providers/dice';
-import BetProvider from '../../providers/bets';
-import PlayerScoreProvider from '../../providers/playerScore';
+import CellsProvider from "../../providers/cells";
+import CurrentPlayerProvider from "../../providers/currentPlayer";
+import DiceProvider from "../../providers/dice";
+import BetProvider from "../../providers/bets";
+import PlayerScoreProvider from "../../providers/playerScore";
 
-import { usePlayerNames } from "../../providers/players/hooks";
-import { useState } from "react";
+import { usePlayerNames } from "../../providers/playerNames/hooks";
+
+import { GameWrapper } from "./index.styled";
 
 const Game = () => {
-    const [playerNames] = usePlayerNames();
-    const [gameDidEnd, setGameDidEnd] = useState(false);
+  const [playerNames] = usePlayerNames();
+  const [gameDidEnd, setGameDidEnd] = useState(false);
 
-    if (!playerNames) {
-        return <Redirect to='/login' />
-    }
+  if (!playerNames) {
+    return <Redirect to="/login" />;
+  }
 
-    return (
-        <CurrentPlayerProvider>
-            <CellsProvider>
-                <DiceProvider>
-                    <BetProvider>
-                        <PlayerScoreProvider>
-                            {gameDidEnd ? null : <GameLogic setGameEnd={() => setGameDidEnd(true)} /> }
-                            <GameInfo />
-                            <Board />
-                            <Dice />
-                            <Panel />
-                        </PlayerScoreProvider>
-                    </BetProvider>
-                </DiceProvider>
-            </CellsProvider>
-        </CurrentPlayerProvider>
-    )
-}
+  return (
+    //reducer was not used due to performance
+    <CurrentPlayerProvider>
+      <CellsProvider>
+        <DiceProvider>
+          <BetProvider>
+            <PlayerScoreProvider>
+              <GameWrapper>
+                {!gameDidEnd ? (
+                  <GameLogic setGameEnd={() => setGameDidEnd(true)} />
+                ) : (
+                  <EndScreen />
+                )}
+                <GameInfo />
+                <div className="boardDiceWrapper">
+                  <Board />
+                  <Dice />
+                </div>
+                <Panel />
+              </GameWrapper>
+            </PlayerScoreProvider>
+          </BetProvider>
+        </DiceProvider>
+      </CellsProvider>
+    </CurrentPlayerProvider>
+  );
+};
 
 export default Game;

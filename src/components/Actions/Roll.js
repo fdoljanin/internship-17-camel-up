@@ -1,29 +1,30 @@
 import { useEffect } from "react";
 import { useMoveCamel } from "../../providers/cells/hooks";
 import { useDice } from "../../providers/dice/hooks";
-import { getDieRoll, getRandomNumber } from "../../utils/random";
-
+import { getDieRoll, getRandomElement } from "../../utils/random";
 
 const Roll = ({ terminateAction }) => {
-    const moveCamel = useMoveCamel();
-    const [, setDice] = useDice();
+  const moveCamel = useMoveCamel();
+  const [, setDice] = useDice();
 
-    const rollDice = () => {
-        setDice(prevDice => {
-            const camelDiceNotRolled = Object.keys(prevDice).filter(die => prevDice[die] === undefined);
-            const randomCamelDie = camelDiceNotRolled[getRandomNumber(0, camelDiceNotRolled.length - 1)];
-            const dieRollValue = getDieRoll();
+  const rollDice = () => {
+    setDice((prevDice) => {
+      const camelDiceNotRolled = Object.keys(prevDice).filter(
+        (die) => prevDice[die] === undefined
+      );
+      const randomCamelDie = getRandomElement(camelDiceNotRolled);
+      const dieRollValue = getDieRoll();
 
-            moveCamel(randomCamelDie, dieRollValue);
-            return { ...prevDice, [randomCamelDie]: dieRollValue };
-        });
+      moveCamel(randomCamelDie, dieRollValue);
+      return { ...prevDice, [randomCamelDie]: dieRollValue };
+    });
 
-        terminateAction();
-    }
+    terminateAction();
+  };
 
-    useEffect(rollDice, []);
+  useEffect(rollDice, []);
 
-    return null;
-}
+  return null;
+};
 
 export default Roll;

@@ -1,14 +1,14 @@
-import {useContext} from "react";
-import {PlayerScoreContext} from ".";
+import { useContext } from "react";
+import { PlayerScoreContext } from ".";
 
 const usePlayerScoreContext = () => {
-    return useContext(PlayerScoreContext);
-}
+  return useContext(PlayerScoreContext);
+};
 
 export const usePlayerScore = () => {
-    const {
-        state: {playerScore},
-        setPlayerScore
-    } = usePlayerScoreContext();
-    return [playerScore, setPlayerScore];
-}
+  const {
+    state: { playerScore },
+    setPlayerScore,
+  } = usePlayerScoreContext();
+  return [playerScore, setPlayerScore];
+};

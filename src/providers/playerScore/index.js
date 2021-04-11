@@ -1,27 +1,40 @@
 import React, { createContext, useState } from "react";
-import {Players} from '../../consts/consts';
+import { Players } from "../../consts/consts";
 import { constructPlayerPoints } from "../../utils/defaults";
+import { returnPositiveOrZero } from "../../utils/helpers";
 
 const initialState = {
-    score: constructPlayerPoints()
-}
+  score: constructPlayerPoints(),
+};
 
 export const PlayerScoreContext = createContext({
-    state: {...initialState},
-    setState: () => {}
+  state: { ...initialState },
+  setState: () => {},
 });
 
-const PlayerScoreProvider = ({children}) => {
-    const [playerScore, setPlayerScore] = useState(initialState.score);
+const PlayerScoreProvider = ({ children }) => {
+  const [playerScore, setPlayerScore] = useState(initialState.score);
 
-    const value = {
-        state: {playerScore},
-        setPlayerScore
-    }
+  const setScoreNotNegative = (setter) => {
+    setPlayerScore(setter);
+    setPlayerScore((prev) => {
+      return {
+        [Players.playerOne]: returnPositiveOrZero(prev.playerOne),
+        [Players.playerTwo]: returnPositiveOrZero(prev.playerTwo),
+      };
+    });
+  };
 
-    return (
-        <PlayerScoreContext.Provider value={value}>{children}</PlayerScoreContext.Provider>
-    );
-}
+  const value = {
+    state: { playerScore },
+    setPlayerScore: setScoreNotNegative,
+  };
+
+  return (
+    <PlayerScoreContext.Provider value={value}>
+      {children}
+    </PlayerScoreContext.Provider>
+  );
+};
 
 export default PlayerScoreProvider;

@@ -2,15 +2,17 @@ import { useContext } from "react";
 import { CellsContext } from ".";
 
 const useCellsContext = () => {
-    return useContext(CellsContext);
-}
+  return useContext(CellsContext);
+};
 
 export const useCells = () => {
-    const { state: { cells }} = useCellsContext();
-    return cells;
-}
+  const {
+    state: { cells },
+  } = useCellsContext();
+  return cells;
+};
 
 export const useMoveCamel = () => {
-    const {moveCamel} = useCellsContext();
-    return moveCamel;
-}
+  const { moveCamel } = useCellsContext();
+  return moveCamel;
+};

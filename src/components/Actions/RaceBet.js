@@ -8,10 +8,11 @@ import { constructBets } from "../../utils/defaults";
 const RaceBet = ({ terminateAction }) => {
   const [currentPlayer, toggleCurrentPlayer] = useCurrentPlayer();
   const [raceBets, addRaceBet] = useAddRaceBet();
+  const setMessage = useSetMessage();
+  
   const existingPlayerBet = raceBets.find(
     (bet) => bet.player === currentPlayer
   );
-  const setMessage = useSetMessage();
 
   const setBet = (camelToBet, playerToBet) => {
     addRaceBet(camelToBet, playerToBet);

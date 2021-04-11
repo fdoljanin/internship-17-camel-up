@@ -13,8 +13,11 @@ const LegBet = ({ terminateAction }) => {
     }
 
     return (
-        <BetModule betOptions={legBets}
-            setBet={(camel) => setBet(camel, currentPlayer)} />
+        <div>
+            <p>Place a leg bet:</p>
+            <BetModule betOptions={legBets}
+                setBet={(camel) => setBet(camel, currentPlayer)} />
+        </div>
     )
 }
 

@@ -3,6 +3,7 @@ import { ActionTypes } from "../../consts/consts";
 import Roll from "./Roll";
 import LegBet from "./LegBet";
 import RaceBet from "./RaceBet";
+import { ActionButton } from "./index.styled";
 
 const Panel = () => {
     const [action, setAction] = useState();
@@ -25,9 +26,9 @@ const Panel = () => {
     return (
         <div>
             <section>
-                <button onClick={() => setAction(ActionTypes.legBet)}>Leg bet</button>
-                <button onClick={() => setAction(ActionTypes.roll)}>Roll</button>
-                <button onClick={() => setAction(ActionTypes.raceBet)}>Race bet</button>
+                <ActionButton onClick={() => setAction(ActionTypes.legBet)}>Leg bet</ActionButton>
+                <ActionButton onClick={() => setAction(ActionTypes.roll)}>Roll</ActionButton>
+                <ActionButton onClick={() => setAction(ActionTypes.raceBet)}>Race bet</ActionButton>
             </section>
             {renderActionSwitch(action)}
         </div>

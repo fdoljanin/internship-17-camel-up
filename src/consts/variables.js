@@ -6,3 +6,8 @@ export const camelColors = {
     camelRed: "#fa5252",
     camelForbidden: "#999"
 }
+
+export const playerColors = {
+    playerOne: "#F0F",
+    playerTwo: "#F50"
+}

@@ -18,8 +18,11 @@ const RaceBet = ({ terminateAction }) => {
         existingPlayerBet ?
             <p>You already placed a bet on {existingPlayerBet.camel}</p>
             :
-            <BetModule betOptions={constructBets()}
-                setBet={(camel) => setBet(camel, currentPlayer)} />
+            <div>
+            <p>Place a race bet:</p>
+                <BetModule betOptions={constructBets()}
+                    setBet={(camel) => setBet(camel, currentPlayer)} />
+            </div>
     )
 };
 

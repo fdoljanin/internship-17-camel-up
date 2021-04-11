@@ -19,8 +19,10 @@ export const Popup = styled.div`
 
     display: flex;
     flex-direction: column;
+    padding: 20px;
+    border-radius: 10px;
 
-    background: #aa0;
+    background: #b71;;
     color: white;
 
     h2 {
@@ -31,7 +33,11 @@ export const Popup = styled.div`
     button {
         cursor: pointer;
         background: #fff;
-        border: 0;
+        border: 2px solid black;
+        margin-top: 15px;
     }
 
+    table, th, td {
+        border: 1px solid white;
+    }
 `;

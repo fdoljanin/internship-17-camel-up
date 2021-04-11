@@ -1,20 +1,34 @@
 import React, { createContext, useState } from "react";
 
 const initialState = {
-    message: null
+    message: []
 }
 
 export const MessageContext = createContext({
     state: { ...initialState },
-    setMessage: () => { }
+    setMessageInQueue: () => { },
+    popMessage: () => {}
 });
 
 const MessageProvider = ({ children }) => {
-    const [message, setMessage] = useState(initialState.message);
+    const [messages, setMessages] = useState(initialState.message);
+
+    const setMessageInQueue = (message) => {
+        setMessages(prev => [...prev, message]);
+    }
+
+    const popMessage = () => {
+        setMessages( prev => {
+            const copy = [...prev];
+            copy.splice(0,1);
+            return copy;
+        })
+    }
 
     const value = {
-        state: { message },
-        setMessage
+        state: { messages },
+        setMessageInQueue,
+        popMessage
     }
 
     return (

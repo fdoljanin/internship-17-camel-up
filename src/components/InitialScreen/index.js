@@ -1,8 +1,9 @@
 import { useState } from "react";
 import {Redirect} from "react-router-dom";
 import { Players } from "../../consts/consts";
-import { useMessage } from "../../providers/message/hooks";
+import { useSetMessage } from "../../providers/message/hooks";
 import { usePlayerNames } from "../../providers/players/hooks";
+import {Form} from "./index.styled";
 
 const initialState = {
     [Players.playerOne]: '',
@@ -12,7 +13,7 @@ const initialState = {
 const InitialScreen = () => {
     const [playersForm, setPlayersForm] = useState(initialState);
     const [playerNames, setPlayerNames] = usePlayerNames();
-    const [, setMessage] = useMessage();
+    const setMessage = useSetMessage();
 
     if (playerNames)
         return <Redirect to="play" />
@@ -37,7 +38,8 @@ const InitialScreen = () => {
     }
 
     return (
-        <form onSubmit={handleSubmit}>
+        <Form onSubmit={handleSubmit}>
+            <h1>CamelUp</h1>
             <div>
                 <label htmlFor={Players.playerOne}>Enter first player name:</label>
                 <input name={Players.playerOne}
@@ -57,7 +59,7 @@ const InitialScreen = () => {
                 ></input>
             </div>
             <button type="submit">Play</button>
-        </form>
+        </Form>
     )
 }
 

@@ -5,10 +5,17 @@ const useMessageContext = () => {
     return useContext(MessageContext);
 }
 
-export const useMessage = () => {
+export const usePopMessage = () => {
     const {
-        state: { message },
-        setMessage
+        state: { messages: {0: message} },
+        popMessage
     } = useMessageContext();
-    return [message, setMessage];
+    return [message, popMessage];
+}
+
+export const useSetMessage = () => {
+    const {
+        setMessageInQueue
+    } = useMessageContext();
+    return setMessageInQueue;
 }

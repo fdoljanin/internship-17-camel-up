@@ -29,7 +29,7 @@ const Game = () => {
                 <DiceProvider>
                     <BetProvider>
                         <PlayerScoreProvider>
-                            <GameLogic setGameEnd={() => setGameDidEnd(true)} />
+                            {gameDidEnd ? null : <GameLogic setGameEnd={() => setGameDidEnd(true)} /> }
                             <GameInfo />
                             <Board />
                             <Dice />
